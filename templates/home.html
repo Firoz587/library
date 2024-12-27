@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<section>
+    <div class="row row-cols-1 row-cols-lg-2 mb-5" style="min-height: 600px;">
+        <div class="col-12 col-lg-6 d-flex align-items-center">
+            <div class="px-3">
+                <h1 class="mb-3 fw-semibold">Library Management System</h1>
+                <p class="mb-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas accusamus et in nostrum. Iste delectus, placeat facilis libero architecto distinctio neque laboriosam eum consequatur eaque laborum fugit expedita modi, minima, ut ab dolorum dignissimos quibusdam natus animi? Voluptatum ratione sequi eius laboriosam veniam! Aspernatur molestiae maiores magnam soluta optio, voluptates odio, ex consectetur deleniti non labore velit et? Rem enim obcaecati, corrupti perspiciatis ducimus excepturi soluta hic illum repellat vero?</p>
+               
+            </div>
+        </div>
+        <div class="col-12 col-lg-6 d-flex align-items-center px-3">
+            <img src="{% static '../static/img/lb.png' %}" alt="Background Image" style="width: 100%;">
+        </div>
+    </div>
+    <div class="d-flex justify-content-center flex-wrap gap-3 mt-5">
+        {% for category in categorys %}
+            <a href="{% url 'category_wise_post' category.slug %}" class="btn btn-dark text-decoration-none text-white px-4" style="font-size: 17px;">
+                {{category}}
+            </a>
+        {% endfor %}
+    </div>   
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-3 my-5">
+        {% for book in books %}
+            <div class="col">
+                <div class="card">
+                    {% if book.image %}
+                        <div>
+                            <img src="{{book.image.url}}" class="card-img-top" alt="{{book.title}}">
+                        </div>
+                    {% endif %}
+                    <div class="card-header">
+                        <h4 class="card-title fw-bold">
+                            <a href="{% url 'view_book' book.id %}" class="text-decoration-none text-black">{{book.title}}</a>
+                        </h4>                        
+                        <h6 class="card-subtitle mt-2" style="font-size:17px;">
+                            Category: <a href="{% url 'category_wise_post' book.category.slug %}" class="text-decoration-none text-black">{{book.category}}</a>
+                        </h6>
+                    </div>
+                    <div class="card-body">                    
+                        <p class="card-text mb-1">
+                            {{book.description|truncatewords:20}}
+                            <a href="{% url 'view_book' book.id %}">Book Deteils</a>
+                        </p>
+                        <div class="d-flex justify-content-between align-items-center my-3">
+                            <h5>Price</h5>
+                            <h5 class="fw-semibold">$ {{book.price}}</h5>
+                        </div>
+                        {% if user.is_authenticated %}
+                            <div>
+                                <a href="{% url 'borrow_book' book.id %}" class="btn btn-dark w-100">Borrow Now</a>
+                            </div> 
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

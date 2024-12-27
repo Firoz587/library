@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Borrowing History</h1>
+<ul>
+    {% for borrowing in borrowings %}
+    <li>
+        {{ borrowing.book.title }} - Borrowed on {{ borrowing.borrowing_date }}{% if borrowing.returned_date %}, Returned on {{ borrowing.returned_date }}{% endif %}
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}
